@@ -1,70 +1,116 @@
-# Getting Started with Create React App
+# React.js Components Nedir ?
+Basite indirgemek gerekirse React Component’leri kullanıcı arayüzünü şekillendiren, belirli görevleri olan, class veya fonksiyon olarak tanımlanmış, geriye React.js elementleri döndüren (JSX) opsiyonel olarak parametre alan yapı taşlarıdır. Class-Based ve Functional olarak iki çeşit component mevcuttur.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### 1. Class-Based components (Sınıf Tabanlı)
+React.js içerisindeki “Component” class’ından extend olan JavaScript class’ları olarak 
+tanımlanır. Bu class’lar React Component’ten extend olduğu için Component Lifecycle 
+süreçlerini barındırır. 
+### 2. Functional components (Fonksiyonel)
+React functional components modern react uygulamalarında kullanılan en yaygın component 
+oluşturma metodu olup; bu componentler özünde sadece javascript fonksiyonudur ve return 
+değeri olarak class-based componentler gibi JSX ifadeler döndürür.
 
-## Available Scripts
+### Niçin Function componenler class componenterinin yerini aldı?
+Her ikisi de aynı görevi yapmakta olmasına rağmen Class component yerine functional component kullanmak daha çok tavsiye edilir. Nedenleri ise;
+* Yazması, okunması ve test edilmesi kolaydır.
+* Daha az kod yazmanızı sağlar.
+* Daha kolay pratik yapmanızı sağlar.
+* Performans açısından daha verimlidir.
 
-In the project directory, you can run:
+### Class component kullanımı
+```
+class Example extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0
+    };
+  }
+ 
+  render() {
+    return (
+      <div>
+        <p>You clicked {this.state.count} times</p>
+        <button onClick={() => this.setState({ count: this.state.count + 1 })}>
+          Click me
+        </button>
+      </div>
+    );
+  }
+}
+```
 
-### `npm start`
+### Functional component kullanımı
+```
+import React, { useState } from 'react';
+ 
+function Example() {
+  const [count, setCount] = useState(0);
+ 
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
+    </div>
+  );
+}
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# React.js Lifecycle (Yaşam Döngüsü)
+Her componentin lifecycle fonksiyonları vardır. İçerisinde will geçen fonksiyonlar component oluşturulmasından hemen önce çağırılırken, içerisinde did geçen fonksiyonlar component kaldırıldıktan sonra çağrılır.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+#### 1. componentWillMount()
+componentWillMount(), component oluşturulmadan hemen önce çağrılır.
 
-### `npm test`
+#### 2. componentDidMount()
+componentDidMount(), bir component render edildikten hemen sonra çağrılır. Uzak bir uç 
+noktadan veri yüklemek gerekiyorsa, bu ağ isteğini başlatmak için iyi bir seçenektir.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### 3. componentWillReceiveProps()
+componentWillReceiveProps(), bir component yeni bir props almaya başlamadan önce 
+çağrılır. Props değişikliklerine tepki olarak state güncellemeniz gerekiyorsa (örneğin 
+sıfırlamak için), this.props ve nextProps metodlarını karşılaştırabilir ve bu 
+metoddaki this.setState() fonksiyonunu kullanarak state geçişleri gerçekleştirebilirsiniz.
 
-### `npm run build`
+#### 4. shouldComponentUpdate()
+shouldComponentUpdate() yeni props veya state alındığında render edilmeden önce çağrılır. Varsayılan değer true’dur. Bu fonksiyon, componentin ilk render edilişinde 
+veya forceUpdate() kullanıldığında çağrılmaz.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### 5. componentWillUpdate()
+componentWillUpdate() yeni props veya state alındığında render edilmeden hemen önce 
+çağrılır. Bu, güncelleme gerçekleşmeden önce hazırlık yapmak için bir fırsat olarak kullanılır. Bu fonksiyon ilk render için çağrılmaz.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### 6. componentDidUpdate()
+componentDidUpdate(), güncelleme gerçekleştikten hemen sonra çağrılır. Bu fonksiyon ilk 
+render için çağrılmaz.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### 7. componentWillUnmount()
+componentWillUnmount(), bir component unmounted ve destroyed edilmeden hemen önce 
+çağrılır. Bu fonksiyonda, zamanlayıcıları geçersiz kılma, network isteklerini iptal etme veya componentDidMount() fonksiyonunda oluşturulan abonelikleri temizleme gibi gerekli 
+işlemler yapılır.
 
-### `npm run eject`
+#### 8. componentDidCatch()
+Hata sınırları, alt component ağacının herhangi bir yerindeki JavaScript hatalarını yakalayan, bu hataları log’a yazan ve çöktüğü compoent ağacı yerine bir yedek UI görüntüleyen React componentleridir.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# React Router Dom Nedir?
+Web sitelerinde gezerken aynı site içerisinde farklı sayfalar bulunmaktadır ve biz bu sayfalar arasında linkler vasıtası ile rahatlıkla gezebiliyoruz. Yine tek sayfa web uygulamalarında da bir çok sayfa olabilir ve bu sayfalar arasında gezinmemiz gerekebilir. React Router Dom bu işlemin etkin bir şekilde yapılabilmesi ve sayfa yenilenmeden diğer bir sayfaya geçebilmemiz için geliştirilmiş olan bir kütüphanedir. React geliştiricileri arasında router kütüphanalerinden en çok kullanılanı React Router kütüphanesidir. React Router Dom 6 ile kullanılan bileşenler sayesinde etkin bir biçimde sayfalar arasında geçiş işlemlerini yapabiliriz. React Router Dom 6 ile gelen bileşenler (component) şu şekilde sıralanabilir.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 1. BrowserRouter
+Sayfa yönlendirmelerini tutan ana bileşendir. Route yapısı kullanılacak tüm bileşenler / sayfalar BrowserRouter arasında olmak zorundadır.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 2. Routers
+Routers, adresi verilen sayfanın görüntülenmesini sağlar.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 3. Route
+Bir sayfayı uygulamaya eklemek için kullanılır. Sayfa adresi (url) ve o sayfada çalıştırılacak bileşeni (component) olarak alır.
 
-## Learn More
+### 4. Link
+Bir sayfaya link vermek için kullanılan bileşendir. Sayfa adresini alır. Kullanımı HTML a etiketi gibidir ancak a etiketinde olduğu gibi sayfayı yenilemez.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 5. Outlet
+Bir route altında farklı bir route (çocuk/child) göstermek için kullanılır.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 6. Navigate
+Program üzerinden istenilen sayfaya gitmek için kullanılır. Kullanıcının bir linke veya butona tıklaması beklenmez.
